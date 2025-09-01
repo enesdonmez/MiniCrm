@@ -1,0 +1,40 @@
+﻿version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: MiniCrmDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrenes*
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d MiniCrmDb"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  jeager:
+    image: jaegertracing/all-in-one:latest
+    ports:
+       - 16686:16686 #frontend
+       - 4317:4317 #gRPc
+       - 4318:4318 #http
+    container_name: jeager
+
+volumes:
+  postgres_data:
+
+#services:
+#  minicrmapi:
+#    image: minicrmapi
+#    build:
+#      context: .
+#      dockerfile: MiniCrmApi/Dockerfile
+#

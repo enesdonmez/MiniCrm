@@ -1,0 +1,6 @@
+@MiniCrmApi_HostAddress = http://localhost:5164
+
+GET {{MiniCrmApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
